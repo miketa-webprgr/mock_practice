@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Homes', type: :system do
-  context '実際にGitHubのAPIを叩く場合' do
+  context '実際にGitHubのAPIを叩く場合', :vcr do
     it 'ユーザー登録ができること' do
       visit root_path
       fill_in 'ユーザー名', with: 'miketa-webprgr'

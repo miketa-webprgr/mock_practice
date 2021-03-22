@@ -5,6 +5,20 @@ require File.expand_path('../config/environment', __dir__)
 # Prevent database truncation if the environment is production
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require 'rspec/rails'
+
+# vcr関係
+require 'vcr'
+VCR.configure do |c|
+  c.cassette_library_dir = 'spec/vcr'
+  c.hook_into :webmock
+  c.configure_rspec_metadata!
+  c.ignore_localhost = true
+    c.before_record do |interaction| # カセット保存前の処理の設定
+    interaction.response.body.force_encoding 'UTF-8'
+    interaction.response.body = JSON.pretty_generate(JSON.parse(interaction.response.body)) if interaction.response.body.present?
+  end
+end
+
 # Add additional requires below this line. Rails is not loaded until this point!
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
@@ -62,3 +76,4 @@ RSpec.configure do |config|
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
 end
+

@@ -14,7 +14,7 @@ RSpec.describe "homes", type: :request do
       expect(response).to have_http_status(200)
     end
 
-    it 'miketa-webprgrで検索すると検索結果が返ってくること' do
+    it 'miketa-webprgrで検索すると検索結果が返ってくること', :vcr do
       get root_path, params: miketa_params
       expect(response).to have_http_status(200)
     end

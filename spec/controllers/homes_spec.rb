@@ -10,7 +10,7 @@ RSpec.describe "homes", type: :controller do
         expect(response).to have_http_status(200)
       end
 
-      it 'miketa-webprgrで検索すると検索結果が返ってくること' do
+      it 'miketa-webprgrで検索すると検索結果が返ってくること', :vcr do
         get :show, params: miketa_params
         expect(response).to have_http_status(200)
       end
