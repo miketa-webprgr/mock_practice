@@ -23,6 +23,15 @@ RSpec.describe "homes", type: :controller do
         get :show, params: { username: 'something'}
         expect(response).to have_http_status(200)
       end
+
+      it 'webmockに置き換える' do
+        username = 'something2'
+        stub_request(:get, "https://api.github.com/users/#{username}/repos").to_return(
+          status: 200)
+
+        get :show, params: { username: 'something2' }
+        expect(response).to have_http_status(200)
+      end
     end
   end
 end

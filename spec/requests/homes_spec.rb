@@ -33,5 +33,20 @@ RSpec.describe "homes", type: :request do
       get root_path, params: { username: 'something'}
       expect(response).to have_http_status(200)
     end
+
+    it 'webmockに置き換える' do
+      username = 'something2'
+      stub_request(:get, "https://api.github.com/users/#{username}/repos").to_return(
+        status: 200,
+        headers: { 'Content-Type' =>  'application/json' },
+        body: '[{
+                  "name": "testuser2",
+                  "html_url": "www.google.co.jp"
+                }]'
+      )
+
+      get root_path, params: { username: 'something2' }
+      expect(response).to have_http_status(200)
+    end
   end
 end

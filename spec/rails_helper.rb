@@ -6,12 +6,16 @@ require File.expand_path('../config/environment', __dir__)
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require 'rspec/rails'
 
+# webmock
+require 'webmock/rspec'
+
 # vcr関係
 require 'vcr'
 VCR.configure do |c|
   c.cassette_library_dir = 'spec/vcr'
   c.hook_into :webmock
   c.configure_rspec_metadata!
+  c.allow_http_connections_when_no_cassette = true
   c.ignore_localhost = true
     c.before_record do |interaction| # カセット保存前の処理の設定
     interaction.response.body.force_encoding 'UTF-8'

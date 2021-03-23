@@ -28,4 +28,24 @@ RSpec.describe 'Homes', type: :system do
       expect(page).to have_content 'www.yahoo.co.jp'
     end
   end
+
+  context 'webmockに置き換える場合' do
+    it '検索するとOctokitのrepositoriesメソッドが走ること' do
+      username = 'something2'
+      stub_request(:get, "https://api.github.com/users/#{username}/repos").to_return(
+        status: 200,
+        headers: { 'Content-Type' =>  'application/json' },
+        body: '[{
+                  "name": "testuser2",
+                  "html_url": "www.google.co.jp"
+                }]'
+      )
+
+      visit root_path
+      fill_in 'ユーザー名', with: 'something2'
+      click_button '検索'
+      expect(page).to have_content 'testuser2'
+      expect(page).to have_content 'www.google.co.jp'
+    end
+  end
 end
