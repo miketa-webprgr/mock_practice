@@ -1,24 +1,15 @@
-# README
+# 概要
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+モックやスタブの練習です。
+概念的ところから理解して、webmockやvcrまで軽く触れます。
 
-Things you may want to cover:
+## 詳細
 
-* Ruby version
+以下のノートに書きました。
 
-* System dependencies
+https://hackmd.io/dexaGI29Tc2jh1ZtO9NNRg?both
 
-* Configuration
+## サンプル教材提供者
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+だいそんさん
+[DaichiSaito/mock\-practice](https://github.com/DaichiSaito/mock-practice)
