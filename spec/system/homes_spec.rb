@@ -11,7 +11,7 @@ RSpec.describe 'Homes', type: :system do
     end
   end
 
-  context 'モックに置き換える場合' do
+  context 'モックに置き換えて、User.allを返す場合' do
     # 苦肉の策として、わざわざusersテーブルとuserモデルを作りました
     # system specなので、view側で何かしらeachで回した時にエラーにならないものを作る必要がある
     let!(:users) { User.create(name: 'testuser', html_url: 'www.yahoo.co.jp') }
@@ -21,6 +21,24 @@ RSpec.describe 'Homes', type: :system do
       allow(Octokit::Client).to receive(:new).and_return(mock)
       allow(mock).to receive(:repositories).with('something').and_return(User.all)
 
+      visit root_path
+      fill_in 'ユーザー名', with: 'something'
+      click_button '検索'
+      expect(page).to have_content 'testuser'
+      expect(page).to have_content 'www.yahoo.co.jp'
+    end
+  end
+
+
+  context 'モックに置き換えてあげる場合（だいそんさん提案）' do
+    it '検索するとOctokitのrepositoriesメソッドが走ること' do
+      mock = double('octokit')
+      allow(Octokit::Client).to receive(:new).and_return(mock)
+      res = double('res')
+      allow(res).to receive(:id).and_return(100)
+      allow(res).to receive(:name).and_return("testuser")
+      allow(res).to receive(:html_url).and_return("www.yahoo.co.jp")
+      allow(mock).to receive(:repositories).with('something').and_return([res])
       visit root_path
       fill_in 'ユーザー名', with: 'something'
       click_button '検索'
